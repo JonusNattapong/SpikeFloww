@@ -1,0 +1,311 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Building Your First Spiking Neural Network &mdash; SpikeFlow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SpikeFlow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SpikeFlow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Building Your First Spiking Neural Network</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/tutorials/basic_snn.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="building-your-first-spiking-neural-network">
+<h1>Building Your First Spiking Neural Network<a class="headerlink" href="#building-your-first-spiking-neural-network" title="Link to this heading"></a></h1>
+<p>This tutorial will guide you through creating and training your first SNN using SpikeFlow.</p>
+<section id="what-you-ll-learn">
+<h2>What You’ll Learn<a class="headerlink" href="#what-you-ll-learn" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Basic concepts of spiking neural networks</p></li>
+<li><p>How to create neurons and synapses</p></li>
+<li><p>Training with STDP (Spike-Timing Dependent Plasticity)</p></li>
+<li><p>Visualizing spike patterns</p></li>
+</ul>
+</section>
+<section id="step-1-understanding-spiking-neurons">
+<h2>Step 1: Understanding Spiking Neurons<a class="headerlink" href="#step-1-understanding-spiking-neurons" title="Link to this heading"></a></h2>
+<p>Unlike traditional artificial neurons that output continuous values, spiking neurons communicate through discrete events called spikes.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">spikeflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Create a Leaky Integrate-and-Fire (LIF) neuron</span>
+<span class="n">neuron</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">LIF</span><span class="p">(</span>
+    <span class="n">shape</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>           <span class="c1"># Single neuron</span>
+    <span class="n">tau_mem</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>      <span class="c1"># Membrane time constant (ms)</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>     <span class="c1"># Spike threshold</span>
+    <span class="n">adaptation_strength</span><span class="o">=</span><span class="mf">0.1</span>  <span class="c1"># Adaptation parameter</span>
+<span class="p">)</span>
+
+<span class="c1"># Simulate neuron response</span>
+<span class="n">time_steps</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">input_current</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.2</span>  <span class="c1"># Constant input</span>
+
+<span class="n">membrane_potentials</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">time_steps</span><span class="p">):</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="n">neuron</span><span class="p">(</span><span class="n">input_current</span><span class="p">)</span>
+    <span class="n">membrane_potentials</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">neuron</span><span class="o">.</span><span class="n">membrane_potential</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">spikes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spike</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="step-2-creating-synaptic-connections">
+<h2>Step 2: Creating Synaptic Connections<a class="headerlink" href="#step-2-creating-synaptic-connections" title="Link to this heading"></a></h2>
+<p>Synapses connect neurons and can learn through STDP:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create STDP synapse</span>
+<span class="n">synapse</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">STDPLinear</span><span class="p">(</span>
+    <span class="n">input_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">output_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">tau_plus</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>     <span class="c1"># LTP time constant</span>
+    <span class="n">tau_minus</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>    <span class="c1"># LTD time constant</span>
+    <span class="n">A_plus</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>       <span class="c1"># LTP strength</span>
+    <span class="n">A_minus</span><span class="o">=</span><span class="mf">0.01</span>       <span class="c1"># LTD strength</span>
+<span class="p">)</span>
+
+<span class="c1"># Simulate synaptic learning</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">pre_spikes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.8</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">synapse</span><span class="p">(</span><span class="n">pre_spikes</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>
+    
+    <span class="c1"># Simulate post-synaptic response</span>
+    <span class="n">post_spikes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.7</span>
+    
+    <span class="c1"># STDP learning occurs automatically</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">synapse</span><span class="p">(</span><span class="n">pre_spikes</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span> <span class="n">post_spikes</span><span class="p">,</span> <span class="n">learning</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-building-a-complete-network">
+<h2>Step 3: Building a Complete Network<a class="headerlink" href="#step-3-building-a-complete-network" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a simple SNN classifier</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">create_snn_classifier</span><span class="p">(</span>
+    <span class="n">input_size</span><span class="o">=</span><span class="mi">784</span><span class="p">,</span>      <span class="c1"># MNIST input size</span>
+    <span class="n">hidden_sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span>
+    <span class="n">output_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">neuron_type</span><span class="o">=</span><span class="s1">&#39;LIF&#39;</span><span class="p">,</span>
+    <span class="n">synapse_type</span><span class="o">=</span><span class="s1">&#39;STDP&#39;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created SNN with </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> parameters&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-data-encoding">
+<h2>Step 4: Data Encoding<a class="headerlink" href="#step-4-data-encoding" title="Link to this heading"></a></h2>
+<p>Convert static data to spike trains:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load sample data</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span>  <span class="c1"># Batch of 32 samples</span>
+
+<span class="c1"># Convert to Poisson spike trains</span>
+<span class="n">spike_data</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">poisson_encoding</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">,</span> 
+    <span class="n">time_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">max_rate</span><span class="o">=</span><span class="mf">100.0</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Spike data shape: </span><span class="si">{</span><span class="n">spike_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># (100, 32, 784)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-training-the-network">
+<h2>Step 5: Training the Network<a class="headerlink" href="#step-5-training-the-network" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">torch.optim</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">optim</span>
+
+<span class="c1"># Setup training</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">spike_loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="s1">&#39;rate&#39;</span><span class="p">)</span>
+
+<span class="c1"># Training loop</span>
+<span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">reset_state</span><span class="p">()</span>
+    
+    <span class="c1"># Forward pass</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">spike_data</span><span class="p">,</span> <span class="n">time_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    
+    <span class="c1"># Dummy targets for demonstration</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="mi">32</span><span class="p">,))</span>
+    
+    <span class="c1"># Compute loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+    
+    <span class="c1"># Backward pass</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">, Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="step-6-visualization">
+<h2>Step 6: Visualization<a class="headerlink" href="#step-6-visualization" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">spikeflow.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpikeVisualizer</span>
+
+<span class="c1"># Create visualizer</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">SpikeVisualizer</span><span class="p">()</span>
+
+<span class="c1"># Plot spike raster</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_raster</span><span class="p">(</span>
+    <span class="n">output</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span>  <span class="c1"># First sample output</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;SNN Output Spikes&quot;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Plot spike histogram</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_spike_histogram</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="key-concepts-learned">
+<h2>Key Concepts Learned<a class="headerlink" href="#key-concepts-learned" title="Link to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p><strong>Temporal Dynamics</strong>: SNNs process information over time</p></li>
+<li><p><strong>Spike Encoding</strong>: Converting data to spike patterns</p></li>
+<li><p><strong>STDP Learning</strong>: Biologically-inspired plasticity</p></li>
+<li><p><strong>Sparse Computation</strong>: Most neurons are silent most of the time</p></li>
+</ol>
+</section>
+<section id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Try the <a class="reference internal" href="#mnist_tutorial.md"><span class="xref myst">MNIST Classification Tutorial</span></a></p></li>
+<li><p>Learn about <a class="reference internal" href="#../user_guide/neurons.md"><span class="xref myst">Advanced Neuron Models</span></a></p></li>
+<li><p>Explore <a class="reference internal" href="#../user_guide/deployment.md"><span class="xref myst">Hardware Deployment</span></a></p></li>
+</ul>
+</section>
+<section id="complete-code">
+<h2>Complete Code<a class="headerlink" href="#complete-code" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">spikeflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Create and train a simple SNN</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># 1. Create model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">create_snn_classifier</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span> <span class="mi">10</span><span class="p">)</span>
+    
+    <span class="c1"># 2. Prepare data</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span>
+    <span class="n">spike_data</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">poisson_encoding</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="p">(</span><span class="mi">32</span><span class="p">,))</span>
+    
+    <span class="c1"># 3. Train</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">reset_state</span><span class="p">()</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">spike_data</span><span class="p">,</span> <span class="n">time_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">spike_loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="s1">&#39;rate&#39;</span><span class="p">)</span>
+        
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">, Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    
+    <span class="c1"># 4. Visualize</span>
+    <span class="n">viz</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">visualization</span><span class="o">.</span><span class="n">SpikeVisualizer</span><span class="p">()</span>
+    <span class="n">viz</span><span class="o">.</span><span class="n">plot_raster</span><span class="p">(</span><span class="n">output</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, JonusNattapong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

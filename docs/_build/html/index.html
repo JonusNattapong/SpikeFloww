@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧠⚡ SpikeFlow Documentation &mdash; SpikeFlow 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation Guide" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            SpikeFlow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">SpikeFlow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">🧠⚡ SpikeFlow Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="spikeflow-documentation">
+<h1>🧠⚡ SpikeFlow Documentation<a class="headerlink" href="#spikeflow-documentation" title="Link to this heading"></a></h1>
+<p><strong>The next-generation Spiking Neural Network library for neuromorphic computing</strong></p>
+<p><a class="reference external" href="https://www.python.org/downloads/"><img alt="Python 3.8+" src="https://img.shields.io/badge/python-3.8+-blue.svg" /></a>
+<a class="reference external" href="https://pytorch.org/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-2.0+-red.svg" /></a>
+<a class="reference internal" href="#LICENSE"><span class="xref myst"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></span></a>
+<a class="reference external" href="https://spikeflow.readthedocs.io/"><img alt="Documentation" src="https://img.shields.io/badge/docs-latest-brightgreen.svg" /></a></p>
+<section id="welcome-to-spikeflow">
+<h2>Welcome to SpikeFlow! 🚀<a class="headerlink" href="#welcome-to-spikeflow" title="Link to this heading"></a></h2>
+<p>SpikeFlow bridges the gap between biological neural networks and silicon-based neuromorphic processors, providing a comprehensive toolkit for developing energy-efficient spiking neural networks.</p>
+<section id="why-spikeflow">
+<h3>Why SpikeFlow?<a class="headerlink" href="#why-spikeflow" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><strong>🚀 Multi-Hardware Support</strong>: CPU, GPU, Intel Loihi, SpiNNaker</p></li>
+<li><p><strong>⚡ Ultra-Low Power</strong>: 1000x less energy than traditional neural networks</p></li>
+<li><p><strong>🧬 Bio-Inspired Learning</strong>: STDP, homeostasis, metaplasticity</p></li>
+<li><p><strong>📱 Edge-Ready</strong>: Optimized for IoT and mobile deployment</p></li>
+<li><p><strong>🔧 Developer-Friendly</strong>: PyTorch-like API for easy adoption</p></li>
+</ul>
+</section>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">spikeflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
+
+<span class="c1"># Create a spiking neural network</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">create_snn_classifier</span><span class="p">(</span>
+    <span class="n">input_size</span><span class="o">=</span><span class="mi">784</span><span class="p">,</span>
+    <span class="n">hidden_sizes</span><span class="o">=</span><span class="p">[</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">],</span>
+    <span class="n">output_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+    <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;cpu&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Train with biologically-inspired STDP</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">STDPOptimizer</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">time_steps</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">spike_loss</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="table-of-contents">
+<h2>Table of Contents<a class="headerlink" href="#table-of-contents" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#quick-installation">Quick Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#hardware-specific-installation">Hardware-Specific Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#verification">Verification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#docker-installation">Docker Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="performance-comparison">
+<h2>Performance Comparison<a class="headerlink" href="#performance-comparison" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Traditional CNN</p></th>
+<th class="head"><p>SpikeFlow SNN</p></th>
+<th class="head"><p>Improvement</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Power Consumption</strong></p></td>
+<td><p>1000 mW</p></td>
+<td><p>1.2 mW</p></td>
+<td><p>833x reduction</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Inference Latency</strong></p></td>
+<td><p>50 ms</p></td>
+<td><p>5 ms</p></td>
+<td><p>10x faster</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Memory Usage</strong></p></td>
+<td><p>50 MB</p></td>
+<td><p>5 MB</p></td>
+<td><p>10x reduction</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Accuracy</strong></p></td>
+<td><p>98.5%</p></td>
+<td><p>97.8%</p></td>
+<td><p>-0.7%</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="community-support">
+<h2>Community &amp; Support<a class="headerlink" href="#community-support" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>📧 <strong>Email</strong>: jonus&#64;spikeflow.dev</p></li>
+<li><p>💬 <strong>Discord</strong>: <a class="reference external" href="https://discord.gg/spikeflow">SpikeFlow Community</a></p></li>
+<li><p>🐛 <strong>Issues</strong>: <a class="reference external" href="https://github.com/JonusNattapong/SpikeFlow/issues">GitHub Issues</a></p></li>
+<li><p>📖 <strong>Papers</strong>: <a class="reference internal" href="#papers"><span class="xref myst">Research Publications</span></a></p></li>
+</ul>
+</section>
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading"></a></h2>
+<p>If you use SpikeFlow in your research, please cite:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@software</span><span class="p">{</span><span class="nl">spikeflow2024</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{SpikeFlow: Enhanced Spiking Neural Network Library}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{JonusNattapong}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2024}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">url</span><span class="p">=</span><span class="s">{https://github.com/JonusNattapong/SpikeFlow}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading"></a></h2>
+<p>SpikeFlow is released under the MIT License. See <a class="reference external" href="https://github.com/JonusNattapong/SpikeFlow/blob/main/LICENSE">LICENSE</a> for details.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, JonusNattapong.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

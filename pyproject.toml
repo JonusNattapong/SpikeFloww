@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spikeflow"
-version = "0.1.0"
+version = "0.1.1"
 description = "Enhanced Spiking Neural Network Library for Neuromorphic Computing"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -116,7 +116,7 @@ line_length = 88
 known_first_party = ["spikeflow"]
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "0.1.1"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true

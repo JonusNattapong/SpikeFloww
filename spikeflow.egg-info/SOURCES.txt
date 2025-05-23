@@ -6,6 +6,9 @@ setup.py
 docs/conf.py
 docs/index.md
 docs/installation.md
+docs/_build/html/_static/file.png
+docs/_build/html/_static/minus.png
+docs/_build/html/_static/plus.png
 docs/tutorials/basic_snn.md
 examples/complete_training_example.py
 spikeflow/__init__.py
