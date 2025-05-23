@@ -1,0 +1,31 @@
+include README.md
+include LICENSE
+include CHANGELOG.md
+include pyproject.toml
+include MANIFEST.in
+
+# Documentation
+recursive-include docs *.md *.rst *.py *.png *.jpg
+recursive-include docs/_static *
+recursive-include docs/_templates *
+
+# Examples and tutorials
+recursive-include examples *.py *.ipynb *.md
+recursive-include tutorials *.py *.ipynb *.md
+
+# Tests
+recursive-include tests *.py
+
+# Configuration files
+include .pre-commit-config.yaml
+include tox.ini
+
+# Exclude build artifacts
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude .git*
+global-exclude .coverage
+global-exclude *.so
+global-exclude .DS_Store

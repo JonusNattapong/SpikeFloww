@@ -1,0 +1,3 @@
+[console_scripts]
+spikeflow-benchmark = spikeflow.cli.benchmark:main
+spikeflow-optimize = spikeflow.cli.optimize:main
