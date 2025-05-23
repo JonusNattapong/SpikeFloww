@@ -34,10 +34,28 @@ output = model(data, time_steps=100)
 loss = sf.functional.spike_loss(output, target)
 ```
 
-## 🎉 **NOW AVAILABLE ON PyPI!**
+## 🔬 SNN vs Deep Learning: เปรียบเทียบโมเดล
 
-```bash
-pip install spikeflow
+SpikeFlow ช่วยให้สร้าง SNN classifier เพื่อเปรียบเทียบกับ deep learning ได้ง่าย เช่น
+
+```python
+import spikeflow as sf
+
+# สร้าง SNN classifier (input 784, hidden 128/64, output 10)
+model = sf.create_snn_classifier(
+    input_size=784,
+    hidden_sizes=[128, 64],
+    output_size=10,
+    backend='cpu'
+)
+
+# ใช้งานกับข้อมูล MNIST
+output = model(input_data, time_steps=100)
+loss = sf.functional.spike_loss(output, target)
+```
+
+- วัด accuracy, latency, power consumption เทียบกับ CNN/MLP ได้
+- ใช้ API คล้าย PyTorch เปรียบเทียบกับ deep learning framework อื่นได้ง่าย
 ```
 
 [![PyPI version](https://badge.fury.io/py/spikeflow.svg)](https://badge.fury.io/py/spikeflow)
@@ -45,6 +63,48 @@ pip install spikeflow
 [![GitHub stars](https://img.shields.io/github/stars/JonusNattapong/SpikeFlow)](https://github.com/JonusNattapong/SpikeFlow/stargazers)
 
 ## 📦 Installation
+
+ติดตั้ง SpikeFlow ได้ 2 วิธี
+
+**1. ติดตั้งผ่าน PyPI**
+```sh
+pip install spikeflow
+```
+
+**2. ติดตั้งแบบพัฒนา**
+```sh
+git clone https://github.com/JonusNattapong/SpikeFlow.git
+cd SpikeFlow
+pip install -e .
+```
+
+## 🛠️ วิธีใช้งานเบื้องต้น
+
+SpikeFlow คือไลบรารีสำหรับสร้าง Spiking Neural Network (SNN) ที่ใช้งานง่ายเหมือน PyTorch
+- สร้างโมเดล SNN classifier ได้ทันที
+- รองรับการเทรนด้วย spike-based loss
+- ใช้กับข้อมูลเช่น MNIST, DVS, หรือข้อมูล time-series อื่นๆ
+
+ตัวอย่าง:
+```python
+import spikeflow as sf
+model = sf.create_snn_classifier(input_size=784, hidden_sizes=[128,64], output_size=10)
+output = model(input_data, time_steps=100)
+loss = sf.functional.spike_loss(output, target)
+```
+
+## 🏗️ สถาปัตยกรรม SpikeFlow
+
+- **core/**: โมเดล neuron, synapse, network (LIF, Izhikevich, STDP ฯลฯ)
+- **learning/**: อัลกอริทึมการเรียนรู้แบบชีวภาพ (STDP, homeostasis)
+- **hardware/**: รองรับ backend CPU, GPU, Loihi, SpiNNaker
+- **datasets/**: โหลดและเตรียมข้อมูล neuromorphic (N-MNIST, DVS Gesture)
+- **visualization/**: ฟังก์ชัน plot spike, raster, dynamics
+- **deployment/**: เครื่องมือ deploy ไปยัง edge/embedded
+- **examples/**: ตัวอย่างการใช้งานและเทรนโมเดล
+
+SpikeFlow ถูกออกแบบให้ modular, ขยายง่าย, และเหมาะกับงานวิจัย/อุตสาหกรรม
+
 
 ```bash
 pip install spikeflow
