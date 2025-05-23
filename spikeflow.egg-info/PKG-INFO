@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: spikeflow
-Version: 0.1.2
+Version: 0.1.0
 Summary: Enhanced Spiking Neural Network Library for Neuromorphic Computing
 Home-page: https://github.com/JonusNattapong/SpikeFlow
 Author: JonusNattapong
@@ -27,45 +27,42 @@ Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
 Classifier: Topic :: Software Development :: Libraries :: Python Modules
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
-Requires-Dist: torch<3.0.0,>=1.12.0
-Requires-Dist: torchvision<1.0.0,>=0.13.0
-Requires-Dist: numpy<2.0.0,>=1.21.0
-Requires-Dist: scipy<2.0.0,>=1.7.0
-Requires-Dist: matplotlib<4.0.0,>=3.4.0
-Requires-Dist: tqdm<5.0.0,>=4.60.0
-Requires-Dist: psutil<6.0.0,>=5.8.0
+Requires-Dist: torch>=2.0.0
+Requires-Dist: torchvision>=0.15.0
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: scipy>=1.7.0
+Requires-Dist: matplotlib>=3.4.0
+Requires-Dist: tqdm>=4.60.0
+Requires-Dist: tensorboard>=2.8.0
+Requires-Dist: psutil>=5.8.0
 Provides-Extra: dev
-Requires-Dist: pytest<8.0,>=7.0; extra == "dev"
-Requires-Dist: pytest-cov<5.0,>=4.0; extra == "dev"
-Requires-Dist: black<25.0,>=22.0; extra == "dev"
-Requires-Dist: flake8<8.0,>=5.0; extra == "dev"
-Requires-Dist: mypy<2.0,>=1.0; extra == "dev"
+Requires-Dist: pytest>=7.0; extra == "dev"
+Requires-Dist: pytest-cov>=4.0; extra == "dev"
+Requires-Dist: black>=22.0; extra == "dev"
+Requires-Dist: flake8>=5.0; extra == "dev"
+Requires-Dist: mypy>=1.0; extra == "dev"
+Requires-Dist: pre-commit>=2.20; extra == "dev"
 Provides-Extra: docs
-Requires-Dist: sphinx<6.0,>=4.0; extra == "docs"
-Requires-Dist: sphinx-rtd-theme<2.0,>=1.0; extra == "docs"
-Requires-Dist: myst-parser<1.0,>=0.18; extra == "docs"
-Provides-Extra: visualization
-Requires-Dist: seaborn<1.0.0,>=0.11.0; extra == "visualization"
-Requires-Dist: plotly<6.0.0,>=5.0.0; extra == "visualization"
+Requires-Dist: sphinx>=5.0; extra == "docs"
+Requires-Dist: sphinx-rtd-theme>=1.0; extra == "docs"
+Requires-Dist: nbsphinx>=0.8; extra == "docs"
+Requires-Dist: myst-parser>=0.18; extra == "docs"
+Provides-Extra: hardware
+Requires-Dist: nxsdk; extra == "hardware"
+Requires-Dist: spynnaker>=6.0; extra == "hardware"
 Provides-Extra: all
-Requires-Dist: spikeflow[dev,docs,visualization]; extra == "all"
+Requires-Dist: spikeflow[dev,docs,hardware]; extra == "all"
 Dynamic: author
 Dynamic: home-page
 Dynamic: requires-python
 
 # 🧠⚡ SpikeFlow: Enhanced Spiking Neural Network Library
 
-## 🚀 **NOW AVAILABLE ON PyPI!**
+*"Bridging Biology and Silicon - The next generation SNN framework"*
 
-```bash
-pip install spikeflow
-```
-
-[![PyPI version](https://badge.fury.io/py/spikeflow.svg)](https://badge.fury.io/py/spikeflow)
-[![Downloads](https://pepy.tech/badge/spikeflow)](https://pepy.tech/project/spikeflow)
-[![GitHub stars](https://img.shields.io/github/stars/JonusNattapong/SpikeFlow)](https://github.com/JonusNattapong/SpikeFlow/stargazers)
-
-**The next-generation Spiking Neural Network library for neuromorphic computing**
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## 🎯 Vision & Key Features
 
@@ -76,20 +73,34 @@ pip install spikeflow
 - **📱 Edge Deployment** - Optimized for IoT and mobile devices
 - **🔧 Developer-Friendly** - PyTorch-like API
 
-## 🎉 **Just Launched!**
+## 🚀 Quick Start
 
-SpikeFlow v0.1.0 is now live on PyPI! Join thousands of researchers and developers revolutionizing AI with neuromorphic computing.
-
-### **Quick Start**
 ```python
 import spikeflow as sf
 
 # Create SNN classifier
-model = sf.create_snn_classifier(784, [128, 64], 10)
+model = sf.create_snn_classifier(
+    input_size=784,
+    hidden_sizes=[128, 64],
+    output_size=10,
+    backend='cpu'  # or 'loihi' for neuromorphic hardware
+)
 
-# Train with bio-inspired learning
-optimizer = sf.optim.STDPOptimizer(model.parameters())
+# Train with STDP
+optimizer = sf.optim.STDP(model.parameters())
+output = model(data, time_steps=100)
+loss = sf.functional.spike_loss(output, target)
 ```
+
+## 🎉 **NOW AVAILABLE ON PyPI!**
+
+```bash
+pip install spikeflow
+```
+
+[![PyPI version](https://badge.fury.io/py/spikeflow.svg)](https://badge.fury.io/py/spikeflow)
+[![Downloads](https://pepy.tech/badge/spikeflow)](https://pepy.tech/project/spikeflow)
+[![GitHub stars](https://img.shields.io/github/stars/JonusNattapong/SpikeFlow)](https://github.com/JonusNattapong/SpikeFlow/stargazers)
 
 ## 📦 Installation
 
@@ -135,12 +146,13 @@ spikeflow/
 
 ## 🌟 **Community & Support**
 
-Join our growing community:
+Join our growing community of neuromorphic computing enthusiasts!
 
 - 💬 **Discord**: [SpikeFlow Community](https://discord.gg/spikeflow)
 - 📧 **Email**: jonus@spikeflow.dev
 - 🐛 **Issues**: [GitHub Issues](https://github.com/JonusNattapong/SpikeFlow/issues)
 - 📖 **Documentation**: [Read the Docs](https://spikeflow.readthedocs.io)
+- 🎓 **Tutorials**: [Interactive Examples](examples/)
 
 ### **Contribute**
 We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
@@ -164,5 +176,3 @@ If you use SpikeFlow in your research, please cite:
 **Made with ❤️ by [JonusNattapong](https://github.com/JonusNattapong)**
 
 *Democratizing neuromorphic computing, one spike at a time.* 🧠⚡
-
-**🎉 Thank you for joining the neuromorphic revolution!**

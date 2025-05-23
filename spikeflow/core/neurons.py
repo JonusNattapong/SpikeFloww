@@ -88,8 +88,11 @@ class AdaptiveLeakyIntegrateAndFire(BaseSpikingNeuron):
         """Enhanced LIF dynamics with adaptation"""
         
         # Ensure input has correct shape
-        if input_current.shape != self.shape:
-            input_current = input_current.view(self.shape)
+        # Support batch dimension: input_current can be (batch, *self.shape)
+        if input_current.shape[-len(self.shape):] != self.shape:
+            raise RuntimeError(
+                f"AdaptiveLeakyIntegrateAndFire.forward: input_current shape {input_current.shape} does not match expected neuron shape {self.shape} (batch dimension allowed)."
+            )
         
         # Update refractory counter
         self.refractory_counter = torch.clamp(self.refractory_counter - 1, 0)

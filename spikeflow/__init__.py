@@ -9,11 +9,6 @@ __author__ = "JonusNattapong"
 from .core.neurons import *
 from .core.synapses import *
 from .core.networks import *
-from .core.encoding import *
-
-# Learning algorithms
-from .learning.stdp import *
-from .learning.homeostasis import *
 
 # High-level API
 from .api import SpikeFlow, create_snn_classifier, Sequential
@@ -47,7 +42,7 @@ def get_backend() -> str:
 # Convenience functions
 LIF = lambda *args, **kwargs: AdaptiveLeakyIntegrateAndFire(*args, **kwargs)
 Izhikevich = lambda *args, **kwargs: IzhikevichNeuron(*args, **kwargs)
-STDPLinear = lambda in_size, out_size, **kwargs: STDPSynapse(in_size, out_size, **kwargs)
+STDPLinear = lambda input_size=None, output_size=None, **kwargs: STDPSynapse(input_size, output_size, **kwargs)
 
 __all__ = [
     # Core classes

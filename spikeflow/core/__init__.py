@@ -13,16 +13,13 @@ This module contains the fundamental building blocks for SNN:
 from .neurons import (
     BaseSpikingNeuron,
     AdaptiveLeakyIntegrateAndFire,
-    IzhikevichNeuron,
-    ExpIF,
-    QuadraticIF
+    IzhikevichNeuron
 )
 
 # Synaptic models
 from .synapses import (
     STDPSynapse,
     MetaplasticSynapse,
-    ShortTermPlasticitySynapse,
     CurrentBasedSynapse
 )
 
@@ -33,48 +30,19 @@ from .networks import (
     RecurrentSpikingNetwork
 )
 
-# Encoding schemes
-from .encoding import (
-    RateEncoder,
-    TemporalEncoder,
-    PopulationEncoder,
-    LatencyEncoder
-)
-
-# Utility functions
-from .utils import (
-    spike_count,
-    membrane_potential_plot,
-    reset_network_state
-)
-
 __all__ = [
     # Neurons
     'BaseSpikingNeuron',
     'AdaptiveLeakyIntegrateAndFire',
     'IzhikevichNeuron', 
-    'ExpIF',
-    'QuadraticIF',
     
     # Synapses
     'STDPSynapse',
     'MetaplasticSynapse',
-    'ShortTermPlasticitySynapse',
     'CurrentBasedSynapse',
     
     # Networks
     'SpikingSequential',
     'SpikingLayer',
     'RecurrentSpikingNetwork',
-    
-    # Encoding
-    'RateEncoder',
-    'TemporalEncoder', 
-    'PopulationEncoder',
-    'LatencyEncoder',
-    
-    # Utils
-    'spike_count',
-    'membrane_potential_plot',
-    'reset_network_state'
 ]

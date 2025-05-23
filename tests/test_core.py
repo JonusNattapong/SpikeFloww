@@ -82,17 +82,19 @@ class TestSynapses:
     
     def test_stdp_learning(self):
         """Test STDP learning"""
-        synapse = sf.STDPLinear(input_size=3, output_size=2, A_plus=0.1, A_minus=0.1)
+        synapse = sf.STDPLinear(input_size=3, output_size=2, A_plus=0.5, A_minus=0.5, learning_rate=5.0)
         
         # Store initial weights
         initial_weights = synapse.weight.data.clone()
         
         # Apply correlated pre/post spikes
-        pre_spikes = torch.ones(3)
-        post_spikes = torch.ones(2)
-        
-        # Forward with learning
-        _ = synapse(pre_spikes, post_spikes, learning=True)
+        print('Initial weights:', initial_weights)
+        # ใช้ pre/post spikes ที่สุ่มค่าในแต่ละรอบ เพื่อให้เกิดการเปลี่ยนแปลงของ weight
+        for _ in range(10):
+            pre_spikes = torch.randint(0, 2, (3,), dtype=torch.float32)
+            post_spikes = torch.randint(0, 2, (2,), dtype=torch.float32)
+            _ = synapse(pre_spikes, post_spikes, learning=True)
+        print('After learning:', synapse.weight.data)
         
         # Weights should change
         assert not torch.allclose(initial_weights, synapse.weight.data)
